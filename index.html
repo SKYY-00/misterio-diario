@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e0b07">
+<title>Misterio diario</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Misterio">
+<meta name="description" content="Un caso de detectives nuevo cada día. Deduce quién, dónde y con qué.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ========== MENÚ ========== -->
+<section class="view on" id="vMenu">
+  <div class="m-art" id="mArt"></div>
+  <div class="dust" id="mDust"></div>
+  <button class="iconbtn m-set" id="mSet" aria-label="Ajustes" title="Ajustes">⚙️</button>
+  <div class="scroll">
+    <div class="m-wrap fadeup">
+      <div class="m-logo">🔍</div>
+      <h1 class="m-title">MISTERIO<br>DIARIO</h1>
+      <p class="m-sub">Un caso nuevo cada día</p>
+      <div class="m-tut hidden" id="mTut">
+        <span class="tut-tag">👇 EMPIEZA AQUÍ</span>
+        <button class="tut-go" id="tutGo" aria-label="Aprender a jugar: tutorial de un minuto">
+          <span class="spark">✨</span>
+          <span class="tt"><b>Aprende a jugar</b><small>Antes de tu primer caso · 1 minuto</small></span>
+          <i>▶</i>
+        </button>
+        <button class="tut-skip" id="tutSkip" aria-label="Omitir el tutorial">omitir</button>
+      </div>
+      <div class="m-grid">
+      <div class="m-main">
+        <button class="m-card" id="mCard" aria-label="Abrir el caso de hoy">
+          <div class="m-date"><span class="dow" id="mDow"></span><span class="day" id="mDay"></span><span class="mon" id="mMon"></span></div>
+          <div class="m-info"><div class="m-no" id="mNo"></div><div class="m-name" id="mName"></div><div class="m-meta" id="mMeta"></div><div class="m-status" id="mStatus"></div></div>
+        </button>
+        <div class="m-diff" id="mDiff" role="tablist" aria-label="Dificultad"></div>
+        <div class="m-ddesc" id="mDesc"></div>
+        <button class="m-cta" id="mCta">🔍 Resolver caso</button>
+      </div>
+      <div class="m-side">
+        <div class="m-info2"><div>🔥 Racha<b id="mStreak">0</b></div><div>⏳ Próximo caso en<b id="mCount">--:--:--</b></div></div>
+        <div class="m-soon">
+          <button class="soon live" id="mBook"><span class="ic">📓</span>Libreta<em id="mRankTxt">NOVATO</em></button>
+          <button class="soon live pk" id="mPacks"><span class="ic">🕰️</span>Packs<em>NUEVO</em><small class="pd">2 sagas de 10 capítulos<br>Una historia continua en cada pack</small></button>
+          <button class="soon live" id="mArch"><span class="ic">🗓️</span>Archivo<em>14 DÍAS</em></button>
+        </div>
+      </div>
+      </div>
+      <div class="m-foot">PROTOTIPO · v12</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TUTORIAL ========== -->
+<section class="view" id="vTut">
+  <header class="tut-bar">
+    <button class="iconbtn" id="tBack" aria-label="Cerrar el tutorial">✕</button>
+    <div class="tut-dots" id="tDots"></div>
+    <span class="tut-step" id="tStep"></span>
+  </header>
+  <div class="scroll"><div class="tut-body" id="tBody"></div></div>
+  <div class="tut-nav"><button class="btn ghost" id="tPrev">Atrás</button><button class="m-cta" id="tNext">Siguiente</button></div>
+</section>
+
+<!-- ========== ARCHIVO ========== -->
+<section class="view" id="vArch">
+  <header class="bar">
+    <button class="iconbtn" id="archBack" aria-label="Volver al menú">←</button>
+    <div class="bar-title on-all"><small>MISTERIO DIARIO</small>Archivo de casos</div>
+  </header>
+  <div class="scroll"><div class="pk-wrap">
+    <p class="pk-lead">¿Te perdiste un día? Los casos de las últimas dos semanas siguen abiertos. No cuentan para la racha, pero sí para tu rango y tus sellos.</p>
+    <div class="arch-prog" id="archProg"></div>
+    <div class="arch-grid" id="archGrid"></div>
+    <div class="arch-day hidden" id="archDay"></div>
+  </div></div>
+</section>
+
+<!-- ========== PACKS ========== -->
+<section class="view" id="vPacks">
+  <header class="bar">
+    <button class="iconbtn" id="pkBack" aria-label="Volver al menú">←</button>
+    <div class="bar-title on-all"><small>MISTERIO DIARIO</small>Packs temáticos</div>
+  </header>
+  <div class="scroll"><div class="pk-wrap">
+    <p class="pk-lead">Sagas de diez capítulos: cada caso continúa la historia del anterior. Juégalas cuando quieras, sin esperar al día siguiente.</p>
+    <div id="pkList"></div>
+    <p class="pk-foot">Más packs en camino. En esta fase de pruebas todos los capítulos están abiertos.</p>
+  </div></div>
+</section>
+
+<section class="view" id="vPack">
+  <div class="scroll">
+    <div class="b-hero">
+      <button class="iconbtn backbtn" id="pBack" aria-label="Volver a los packs">←</button>
+      <div class="art" id="pArt"></div>
+      <div class="dust" id="pDust"></div>
+      <div class="b-txt"><div class="eyebrow" id="pEyebrow"></div><h1 id="pTitle"></h1></div>
+    </div>
+    <div class="b-body">
+      <p class="intro" id="pIntro"></p>
+      <div class="pk-chips" id="pChips"></div>
+      <div class="m-diff" id="pDiff" role="tablist" aria-label="Dificultad del pack"></div>
+      <div class="pk-prog" id="pProg"></div>
+      <div class="pk-grid" id="pGrid"></div>
+      <div class="pk-board" id="pBoard"></div>
+      <p class="pk-foot" id="pNote"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EXPEDIENTE ========== -->
+<section class="view" id="vBrief">
+  <div class="scroll">
+    <div class="b-hero">
+      <button class="iconbtn backbtn" id="bBack" aria-label="Volver al menú">←</button>
+      <div class="art" id="bArt"></div>
+      <div class="dust" id="bDust"></div>
+      <div class="b-txt"><div class="eyebrow" id="bEyebrow"></div><h1 id="bTitle"></h1></div>
+    </div>
+    <div class="b-body">
+      <div class="prev hidden" id="bPrev"></div>
+      <div class="story" id="bStory"></div>
+      <div class="cast" id="bCast"></div>
+      <section class="scene">
+        <div class="tape"><span>ESCENA DEL CRIMEN · NO PASAR</span></div>
+        <h3>El culpable es <b>quien estaba aquí</b> y <b>llevaba esto</b></h3>
+        <div class="pair" id="bPair"></div>
+      </section>
+      <ul class="steps">
+        <li><span class="si">📎</span><div><b>Lee las pistas.</b> Siempre dicen la verdad y bastan para deducirlo todo, sin adivinar.</div></li>
+        <li><span class="si">✕</span><div><b>Marca cada ficha:</b> un toque ✕ descartado, dos ✓ seguro, tres lo borra. Lo imposible se atenúa solo.</div></li>
+        <li><span class="si">💡</span><div><b>Cuando solo queda una opción,</b> la casilla brilla con una bombilla.</div></li>
+        <li><span class="si">🔍</span><div><b>Acusa al culpable.</b> Tienes 3 intentos.</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="b-cta"><button class="m-cta" id="bStart">🕵️ Empezar a investigar</button></div>
+</section>
+
+<!-- ========== TABLERO DEL CASO ========== -->
+<section class="view" id="vCase">
+  <header class="bar">
+    <button class="iconbtn" id="cBack" aria-label="Volver al menú">←</button>
+    <div class="bar-title" id="cTitle"></div>
+    <div class="target" id="cTarget" role="button" aria-label="Escena del crimen"></div>
+    <button class="iconbtn" id="cBrief" aria-label="Ver el expediente">📁</button>
+    <button class="iconbtn hidden" id="cResult" aria-label="Ver el veredicto">🏁</button>
+    <span class="lives" id="lives" title="Intentos"></span>
+  </header>
+  <div class="cbg" id="cBg" aria-hidden="true"></div>
+  <div class="cs">
+    <div class="clues-panel">
+      <div class="cp-head"><span>📎 Pistas <b class="cnt" id="cNow">1</b><span class="cnt"> / <span id="cTot"></span></span></span><span class="grow"></span><span id="clueProg"></span><button class="pill" id="allBtn">Ver todas</button></div>
+      <div class="strip" id="strip"></div>
+    </div>
+    <div class="stage" id="stage"></div>
+    <nav class="dock" id="dock" role="tablist" aria-label="Sospechosos"></nav>
+  </div>
+</section>
+
+<div class="sheet hidden" id="sheet"><div class="sheet-in"><div class="sheet-h"><span>📎 Todas las pistas</span><span class="grow"></span><small id="sheetProg"></small><button class="iconbtn" id="sheetClose" aria-label="Cerrar">✕</button></div><div class="sheet-b" id="sheetBody"></div></div></div>
+<div class="sheet hidden" id="why"><div class="sheet-in"><div class="sheet-h"><span>🔎 Cómo se resolvía</span><span class="grow"></span><button class="iconbtn" id="whyClose" aria-label="Cerrar">✕</button></div><div class="sheet-b" id="whyBody"></div></div></div>
+<div class="sheet hidden" id="book"><div class="sheet-in"><div class="sheet-h"><span>📓 Libreta del detective</span><span class="grow"></span><button class="iconbtn" id="bookClose" aria-label="Cerrar">✕</button></div><div class="sheet-b book" id="bookBody"></div></div></div>
+<div class="sheet hidden" id="diary"><div class="sheet-in"><div class="sheet-h"><span id="diaryT">📖 Diario del caso</span><span class="grow"></span><button class="iconbtn" id="diaryClose" aria-label="Cerrar">✕</button></div><div class="sheet-b book diary" id="diaryBody"></div></div></div>
+<div class="sheet hidden" id="set"><div class="sheet-in"><div class="sheet-h"><span>⚙️ Ajustes</span><span class="grow"></span><button class="iconbtn" id="setClose" aria-label="Cerrar">✕</button></div><div class="sheet-b setb" id="setBody"></div></div></div>
+<div class="overlay hidden" id="overlay"></div>
+
+<script src="packs.js"></script>
+<script src="misterio.js"></script>
+<script src="hero.js"></script>
+<script src="app.js"></script>
+<script>try{if("serviceWorker"in navigator&&/^https:|localhost/.test(location.protocol+location.hostname)&&location.protocol!=="file:")navigator.serviceWorker.register("sw.js").catch(function(){})}catch(e){}</script>
+</body>
+</html>
